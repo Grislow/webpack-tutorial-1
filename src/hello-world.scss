@@ -1,0 +1,14 @@
+@import "~bootstrap/scss/bootstrap";
+
+.my-dropdown {
+    float: right;
+    position: relative;
+    top: 7px;
+    right: 40px;
+}
+
+.loading {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}

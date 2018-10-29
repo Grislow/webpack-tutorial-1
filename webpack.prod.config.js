@@ -11,7 +11,7 @@ module.exports = {
     output: {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, './dist'),
-        publicPath: '/static/'
+        publicPath: ''
     },
     mode: 'production',
     optimization: {
@@ -38,7 +38,20 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
+                    MiniCssExtractPlugin.loader, 
+                    'css-loader', 
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function () {
+                                return [
+                                    require('precss'),
+                                    require('autoprefixer')
+                                ]
+                            }
+                        }
+                    },
+                    'sass-loader'
                 ]
             },
             {
@@ -57,6 +70,24 @@ module.exports = {
                 use: [ 
                     'handlebars-loader'
                 ]
+            },
+            {
+                test: /font-awesome\.config\.js/,
+                use:
+                    [
+                        { loader: 'style-loader' },
+                        { loader: 'font-awesome-loader' }
+                    ]
+            },
+            {
+                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
             }
         ]
     },
@@ -67,14 +98,14 @@ module.exports = {
         new CleanWebpackPlugin('dist'),
         new HtmlWebpackPlugin({
             filename: 'hello-world.html',
-            chunks: ['hello-world', 'vendors~hello-world~kiwi'],
+            chunks: ['hello-world'],
             title: 'Hello world',
             template: 'src/page-template.hbs',
             description: 'Hello world page'
         }),
         new HtmlWebpackPlugin({
             filename: 'kiwi-image.html',
-            chunks: ['kiwi', 'vendors~hello-world~kiwi'],
+            chunks: ['kiwi'],
             title: 'Kiwi Image',
             template: 'src/page-template.hbs',
             description: 'A picture of a kiwi'
