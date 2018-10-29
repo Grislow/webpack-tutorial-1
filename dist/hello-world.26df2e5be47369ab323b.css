@@ -6396,3 +6396,8 @@ a.text-dark:hover, a.text-dark:focus {
   top: 7px;
   right: 40px; }
 
+.loading {
+  position: absolute;
+  top: 16px;
+  right: 16px; }
+
